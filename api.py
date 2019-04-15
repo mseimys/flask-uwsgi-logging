@@ -10,6 +10,7 @@ log = logging.getLogger(__name__)
 @api.route("/pages/", defaults={"page": "index"})
 @api.route("/pages/<page>")
 def show(page):
+    print("STDOUT HERE I COME")
     log.error("PAGE ERROR")
     log.warning("PAGE WARNING")
     log.info("PAGE INFO")

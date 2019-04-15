@@ -25,10 +25,9 @@ DEFAULT_LOGGING = {
             "filename": "myapp.log",
         },
     },
-    "root": {"level": "DEBUG", "handlers": ["console"]},
+    "root": {"level": "DEBUG", "handlers": ["console", "file"]},
 }
 
 
 def setup_logging():
     logging.config.dictConfig(DEFAULT_LOGGING)
-
