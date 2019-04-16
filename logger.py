@@ -1,4 +1,26 @@
+import atexit
+import queue
+import logging
 import logging.config
+from logging.handlers import QueueHandler, QueueListener
+
+
+def add_queuehandler():
+    log_queue = queue.Queue(-1)
+    queue_handler = QueueHandler(log_queue)
+
+    logger = logging.getLogger()
+    logger.addHandler(queue_handler)
+
+    console_handler = logging.StreamHandler()
+    formatter = logging.Formatter("QQ: %(threadName)s: %(message)s")
+    console_handler.setFormatter(formatter)
+
+    listener = QueueListener(log_queue, console_handler)
+    listener.start()
+
+    atexit.register(listener.stop)
+
 
 DEFAULT_LOGGING = {
     "version": 1,
@@ -31,3 +53,4 @@ DEFAULT_LOGGING = {
 
 def setup_logging():
     logging.config.dictConfig(DEFAULT_LOGGING)
+    add_queuehandler()
